@@ -11,6 +11,9 @@ X_cat = onehot.transform(X_cat).toarray()
 X_cat = pd.DataFrame(X_cat)
 X_cat
 
+Para concatenar é importante que ambos os dataframes tenham o mesmo índice, senão acabará dando erro
+X_cat.index = negative_text.index
+
 Já aqui ele concatena ambos dataframes
 negative_df = pd.concat([negative_text, X_cat], axis = 1)
 negative_df
@@ -33,7 +36,7 @@ negative_final
 agora ele utiliza o bayes predict no dataframe negative_final
 bayes.predict(negative_final)
 
-O resultado é um array com uma posição
+O resultado é um array negativo de classe 0, logo ele foi capaz de predizer corretamente que era um feedback negativo
 ->array([0])
 
 agora ele está analisando a probabilidade de ser negativo ou positivo
