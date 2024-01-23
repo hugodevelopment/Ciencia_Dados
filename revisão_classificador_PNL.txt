@@ -78,8 +78,15 @@ def_predict_negative(coluna1, coluna2):
 
         print(bayes.predict_proba(negative_final))
 
+-----------------------------------------------------------------------------------------------------------*----------------------------------------------------------------------------------------
 
+Sim, a escolha entre técnicas como One-Hot Encoding e Tokenização (ou outras técnicas de vetorização) depende do tipo de dado que você está lidando.
 
+One-Hot Encoding: É frequentemente usado para lidar com variáveis categóricas, onde você tem um conjunto discreto de categorias. A técnica cria colunas binárias (0 ou 1) para cada categoria única presente na coluna original. No caso da coluna "variation", pode-se assumir que são palavras únicas ou um número limitado de palavras, e cada palavra recebe sua própria coluna binária.
+
+Tokenização: É mais apropriada para lidar com texto, especialmente quando você precisa representar palavras em frases ou documentos de maneira numérica. Cada palavra é transformada em um número ou vetor, e a representação final é uma matriz de números. A coluna "verified_reviews" provavelmente contém frases ou texto mais longo, por isso a tokenização é mais adequada.
+
+Em resumo, a escolha entre essas técnicas depende da natureza dos dados em cada coluna. Se você tem variáveis categóricas, o One-Hot Encoding é uma escolha comum, enquanto a tokenização é mais útil quando lidando com texto. Em projetos de aprendizado de máquina, muitas vezes você pode precisar de uma combinação de várias técnicas para lidar com diferentes tipos de dados no conjunto de recursos.
 
         
 
