@@ -1,0 +1,88 @@
+Já está na parte final. negative_text = negative.iloc[0:1, [2,3]] Aqui ele usa um iloc para selecionar a primeira linhas, 0:1 porém 1 não é incluido e [2.3] para selecionar a 2 e 3 coluna do dataframe negative.
+
+
+Já aqui ele cria uma variável categoria para selecionar apenas a informação variation
+X_cat = negative_text[['variation']]
+X_cat
+
+
+Ele transforma em dummy variaveis para a aplicação do modelo e cria um dataframe a partir disso
+X_cat = onehot.transform(X_cat).toarray()
+X_cat = pd.DataFrame(X_cat)
+X_cat
+
+Já aqui ele concatena ambos dataframes
+negative_df = pd.concat([negative_text, X_cat], axis = 1)
+negative_df
+
+Aqui ele descartar a coluna variation considerando que apenas as colunas numericas serão utilizadas
+negative_df.drop(['variation'], axis = 1, inplace = True)
+negative_df
+
+Aqui ele transformar os textos presentes na coluna em informações numericas utilizando a tokenização
+negative_coutvectorizer = vec.transform(negative_df['verified_reviews'])
+
+aqui ele converte em array
+review = pd.DataFrame(negative_coutvectorizer.toarray())
+review
+
+Agora ele concatena apenas os dados numericos, sem dados cateorigos
+negative_final = pd.concat([negative_df, review], axis = 1)
+negative_final
+
+agora ele utiliza o bayes predict no dataframe negative_final
+bayes.predict(negative_final)
+
+O resultado é um array com uma posição
+->array([0])
+
+agora ele está analisando a probabilidade de ser negativo ou positivo
+bayes.predict_proba(negative_final)
+
+Como resultado temos 0.73 de ser um feedback negativo e 0.26 de ser um feedback positivo
+-> array([[0.73190851, 0.26809149]])
+
+-----------------------------------------------------------------------------------------------------------*----------------------------------------------------------------------------------------
+
+Para facilitar e deixar o codigo mais utilizável e organizado podemos criar uma função onde receberemos 2 paramentros, nesse caso são as colunas [variation e verified_reviews]
+
+def_predict_negative(coluna1, coluna2):
+	import pickle
+
+	with open('text_classifier.pkl', 'rb') as f:
+  	bayes, onehot, vec = pickle.load(f)
+        
+        negative_text = negative.iloc[0:1, [coluna1, coluna2]]
+
+	X_cat = negative_text[['coluna1']]
+	X_cat
+
+       	X_cat = onehot.transform(X_cat).toarray()
+	X_cat = pd.DataFrame(X_cat)
+	X_cat
+
+	negative_df = pd.concat([negative_text, X_cat], axis = 1)
+
+	negative_df.drop(['coluna1'], axis = 1, inplace = True)
+	negative_df
+
+	negative_coutvectorizer = vec.transform(negative_df['coluna2'])
+
+	review = pd.DataFrame(negative_coutvectorizer.toarray())
+
+	negative_df.drop(['coluna 2'], axis = 1, inplace = True)
+
+	negative_final = pd.concat([negative_df, review], axis = 1)
+
+	bayes.predict(negative_final)
+
+        print(bayes.predict_proba(negative_final))
+
+
+
+
+        
+
+
+
+
